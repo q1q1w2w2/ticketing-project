@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -14,24 +16,13 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ticket_id")
     private Long id;
 
-    private int totalAmount;
+    @Column(name = "serial_number")
+    private String serialNumber;
 
-    private int reservedAmount = 0;
-
-//    @Version
-//    private Integer version;
-
-    public Ticket(int totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public void increaseReservedAmount() {
-        if (reservedAmount >= totalAmount) {
-            throw new IllegalArgumentException("Sold Out!");
-        }
-        reservedAmount++;
-    }
+    @Column(name = "issue_at")
+    private LocalDateTime issueAt;
 
 }

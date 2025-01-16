@@ -14,14 +14,23 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "reservation_id")
     private Long id;
 
-    private Long ticketId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private int ticketNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "concert_id")
+    private Concert concert;
 
-    public Reservation(Ticket ticket, int ticketNumber) {
-        this.ticketId = ticket.getId();
-        this.ticketNumber = ticketNumber;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
+
+    @Column(name = "status")
+    private String status;
+
+
 }
