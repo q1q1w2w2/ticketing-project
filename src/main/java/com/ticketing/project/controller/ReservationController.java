@@ -10,10 +10,7 @@ import com.ticketing.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -34,5 +31,12 @@ public class ReservationController {
         return ResponseEntity.status(CREATED).body(response);
     }
 
+    @PatchMapping
+    public ResponseEntity cancelReservation(@RequestParam Long id) {
+        User user = userService.getCurrentUser();
+        reservationService.cancelReservation(id, user);
 
+        ApiResponse<Object> response = ApiResponse.success(OK, "취소가 완료되었습니다.");
+        return ResponseEntity.status(OK).body(response);
+    }
 }

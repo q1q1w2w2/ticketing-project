@@ -1,5 +1,6 @@
 package com.ticketing.project.entity;
 
+import com.ticketing.project.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import static com.ticketing.project.enums.TicketStatus.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -32,6 +34,9 @@ public class Reservation {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    @Column(name = "status")
+    private int status;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -41,9 +46,14 @@ public class Reservation {
     }
 
     @Builder
-    public Reservation(User user, Concert concert, Ticket ticket) {
+    public Reservation(User user, Concert concert, Ticket ticket, int status) {
         this.user = user;
         this.concert = concert;
         this.ticket = ticket;
+        this.status = status;
+    }
+
+    public void cancel() {
+        this.status = CANCEL.value;
     }
 }

@@ -66,4 +66,11 @@ public class Concert {
         }
         reservedAmount++;
     }
+
+    public void decreaseReservedAmount() {
+        if (reservedAmount <= 0) {
+            throw new NoAvailableSeatException();
+        }
+        reservedAmount--;
+    }
 }

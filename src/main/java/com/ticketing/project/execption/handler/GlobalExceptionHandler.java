@@ -4,6 +4,8 @@ import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.execption.auth.TokenValidationException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.execption.reservation.NoAvailableSeatException;
+import com.ticketing.project.execption.reservation.ReservationNotFoundException;
+import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
 import com.ticketing.project.execption.user.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +56,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoAvailableSeatException.class)
     public ResponseEntity<ApiResponse<Object>> handleNoAvailableSeatException(NoAvailableSeatException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleReservationNotFoundException(ReservationNotFoundException e) {
+        return createErrorResponse(e, NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidOwnerException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidOwnerException(InvalidOwnerException e) {
         return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 

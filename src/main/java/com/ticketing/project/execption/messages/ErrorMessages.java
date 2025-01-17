@@ -17,4 +17,8 @@ public class ErrorMessages {
 
     public static final String NO_AVAILABLE_SEAT = "남은 좌석이 없습니다.";
 
+    public static final String RESERVATION_NOT_FOUND = "예약 건을 찾을 수 없습니다.";
+
+    public static final String INVALID_OWNER = "등록자 본인이 아닙니다.";
+
 }
