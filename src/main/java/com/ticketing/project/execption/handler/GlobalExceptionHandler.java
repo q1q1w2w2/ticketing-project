@@ -5,6 +5,7 @@ import com.ticketing.project.execption.auth.TokenValidationException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.execption.reservation.NoAvailableSeatException;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
+import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
 import com.ticketing.project.execption.user.UserNotFoundException;
@@ -66,6 +67,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidOwnerException.class)
     public ResponseEntity<ApiResponse<Object>> handleInvalidOwnerException(InvalidOwnerException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(SingleTicketPerUserException.class)
+    public ResponseEntity<ApiResponse<Object>> handleSingleTicketPerUserException(SingleTicketPerUserException e) {
         return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 
