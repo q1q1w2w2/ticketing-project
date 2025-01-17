@@ -25,8 +25,12 @@ public class Ticket {
     @Column(name = "issue_at")
     private LocalDateTime issueAt;
 
-    public Ticket(String serialNumber) {
+    @Column(name = "status")
+    private int status;
+
+    public Ticket(String serialNumber, int status) {
         this.serialNumber = serialNumber;
+        this.status = status;
     }
 
     @PrePersist

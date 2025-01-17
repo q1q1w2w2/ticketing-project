@@ -1,5 +1,6 @@
 package com.ticketing.project.entity;
 
+import com.ticketing.project.execption.reservation.NoAvailableSeatException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,7 +51,7 @@ public class Concert {
     }
 
     @Builder
-    public Concert(Location location, String title, LocalDateTime concertAt, LocalDateTime openAt, LocalDateTime closeAt, int totalAmount, int reservedAmount) {
+    public Concert(Location location, String title, LocalDateTime concertAt, LocalDateTime openAt, LocalDateTime closeAt, int totalAmount) {
         this.location = location;
         this.title = title;
         this.concertAt = concertAt;
@@ -61,7 +62,7 @@ public class Concert {
 
     public void increasedReservedAmount() {
         if (reservedAmount >= totalAmount) {
-            throw new IllegalArgumentException("남은 좌석이 없습니다.");
+            throw new NoAvailableSeatException();
         }
         reservedAmount++;
     }

@@ -1,7 +1,11 @@
 package com.ticketing.project.execption.handler;
 
 import com.ticketing.project.dto.common.ApiResponse;
+import com.ticketing.project.execption.auth.TokenValidationException;
+import com.ticketing.project.execption.location.LocationNotFoundException;
+import com.ticketing.project.execption.reservation.NoAvailableSeatException;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
+import com.ticketing.project.execption.user.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -11,7 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.ticketing.project.execption.messages.ErrorMessages.INVALID_CREDENTIAL;
+import static com.ticketing.project.execption.messages.ErrorMessages.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
@@ -31,6 +35,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiResponse<Object>> handleBadCredentialsException(BadCredentialsException e) {
         return createErrorResponse(e, UNAUTHORIZED, INVALID_CREDENTIAL);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleUserNotFoundException(UserNotFoundException e) {
+        return createErrorResponse(e, NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(TokenValidationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleTokenValidationException(TokenValidationException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleLocationNotFoundException(LocationNotFoundException e) {
+        return createErrorResponse(e, NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(NoAvailableSeatException.class)
+    public ResponseEntity<ApiResponse<Object>> handleNoAvailableSeatException(NoAvailableSeatException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

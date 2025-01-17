@@ -1,12 +1,13 @@
 package com.ticketing.project.enums;
 
-public enum ReservationStatus {
+public enum TicketStatus {
     AVAILABLE(0),
-    EXPIRED(1);
+    CANCEL(1),
+    EXPIRED(2);
 
     public int value;
 
-    ReservationStatus(int value) {
+    TicketStatus(int value) {
         this.value = value;
     }
 }

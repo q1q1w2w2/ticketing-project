@@ -28,12 +28,9 @@ public class Reservation {
     @JoinColumn(name = "concert_id")
     private Concert concert;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
-
-    @Column(name = "status")
-    private int status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -44,10 +41,9 @@ public class Reservation {
     }
 
     @Builder
-    public Reservation(User user, Concert concert, Ticket ticket, int status) {
+    public Reservation(User user, Concert concert, Ticket ticket) {
         this.user = user;
         this.concert = concert;
         this.ticket = ticket;
-        this.status = status;
     }
 }
