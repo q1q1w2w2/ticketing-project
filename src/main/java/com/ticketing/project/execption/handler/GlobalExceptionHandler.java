@@ -2,6 +2,8 @@ package com.ticketing.project.execption.handler;
 
 import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.execption.auth.TokenValidationException;
+import com.ticketing.project.execption.concert.ConcertAlreadyCancelException;
+import com.ticketing.project.execption.concert.ConcertNotFoundException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.execption.reservation.NoAvailableSeatException;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
@@ -28,6 +30,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGeneralException(Exception e) {
         return createErrorResponse(e, INTERNAL_SERVER_ERROR, e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Object>> handleIllegalArgumentException(IllegalArgumentException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
@@ -72,6 +79,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SingleTicketPerUserException.class)
     public ResponseEntity<ApiResponse<Object>> handleSingleTicketPerUserException(SingleTicketPerUserException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(ConcertNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleConcertNotFoundException(ConcertNotFoundException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(ConcertAlreadyCancelException.class)
+    public ResponseEntity<ApiResponse<Object>> handleConcertAlreadyCancelException(ConcertAlreadyCancelException e) {
         return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 

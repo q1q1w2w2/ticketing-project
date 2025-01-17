@@ -22,4 +22,5 @@ public class ErrorMessages {
     public static final String INVALID_OWNER = "등록자 본인이 아닙니다.";
 
     public static final String SINGLE_TICKET_PER_USER = "콘서트 당 하나의 티켓만 발급 가능합니다.";
+    public static final String ALREADY_CANCEL = "이미 취소된 콘서트입니다.";
 }

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.ticketing.project.util.enums.TicketStatus.*;
 
 @Service
@@ -47,7 +49,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public void cancelReservation(Long reservationId, User user) {
+    public void cancelReservations(Long reservationId, User user) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(ReservationNotFoundException::new);
 
@@ -64,6 +66,16 @@ public class ReservationService {
 
         Concert concert = reservation.getConcert();
         concert.decreaseReservedAmount();
+    }
+
+    @Transactional
+    public void cancelReservations(Concert concert) {
+        List<Reservation> reservations = reservationRepository.findAllByConcert(concert);
+
+        for (Reservation reservation : reservations) {
+            reservation.cancel();
+            reservation.getTicket().cancel();
+        }
     }
 
 }
