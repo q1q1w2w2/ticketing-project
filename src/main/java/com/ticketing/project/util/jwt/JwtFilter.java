@@ -1,7 +1,7 @@
 package com.ticketing.project.util.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ticketing.project.dto.ApiResponse;
+import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.util.auth.CustomAuthenticationEntryPoint;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

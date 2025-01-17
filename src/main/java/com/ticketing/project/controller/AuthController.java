@@ -1,6 +1,6 @@
-package com.ticketing.project.controller.auth;
+package com.ticketing.project.controller;
 
-import com.ticketing.project.dto.ApiResponse;
+import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.dto.auth.LoginDto;
 import com.ticketing.project.dto.auth.TokenDto;
 import com.ticketing.project.service.AuthService;

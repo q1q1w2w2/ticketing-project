@@ -1,6 +1,6 @@
-package com.ticketing.project.controller.user;
+package com.ticketing.project.controller;
 
-import com.ticketing.project.dto.ApiResponse;
+import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.dto.user.SignupDto;
 import com.ticketing.project.dto.user.SignupResponseDto;
 import com.ticketing.project.entity.User;
@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

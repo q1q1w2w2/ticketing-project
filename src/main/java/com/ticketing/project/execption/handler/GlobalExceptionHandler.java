@@ -1,6 +1,6 @@
-package com.ticketing.project.execption;
+package com.ticketing.project.execption.handler;
 
-import com.ticketing.project.dto.ApiResponse;
+import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

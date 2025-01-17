@@ -1,4 +1,4 @@
-package com.ticketing.project.dto;
+package com.ticketing.project.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
