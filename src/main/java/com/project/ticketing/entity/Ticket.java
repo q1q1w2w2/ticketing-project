@@ -31,6 +31,6 @@ public class Ticket {
 
     @PrePersist
     private void setIssueAt() {
-        this.issueAt = LocalDateTime.now();
+        this.issueAt = LocalDateTime.now().withNano(0);
     }
 }

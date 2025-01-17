@@ -41,7 +41,7 @@ public class User {
 
     @PrePersist
     private void createAt() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now().withNano(0);
     }
 
     @Builder

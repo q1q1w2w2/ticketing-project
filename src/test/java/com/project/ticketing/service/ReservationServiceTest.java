@@ -68,7 +68,6 @@ class ReservationServiceTest {
         AtomicInteger successCount = new AtomicInteger();
         AtomicInteger failCount = new AtomicInteger();
 
-
         // when
         for (int i = 0; i < userCount; i++) {
             User user = User.builder()

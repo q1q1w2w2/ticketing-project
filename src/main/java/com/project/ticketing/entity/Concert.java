@@ -47,7 +47,7 @@ public class Concert {
 
     @PrePersist
     private void createdAt() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now().withNano(0);
     }
 
     @Builder

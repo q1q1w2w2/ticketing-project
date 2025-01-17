@@ -36,7 +36,7 @@ public class ReservationService {
                 .user(user)
                 .concert(concert)
                 .ticket(ticket)
-                .status(AVAILABLE)
+                .status(AVAILABLE.value)
                 .build();
         reservationRepository.save(reservation);
 

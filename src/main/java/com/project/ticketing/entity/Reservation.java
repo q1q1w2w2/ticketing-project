@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -32,10 +34,18 @@ public class Reservation {
     private Ticket ticket;
 
     @Column(name = "status")
-    private ReservationStatus status;
+    private int status;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    private void createdAt() {
+        this.createdAt = LocalDateTime.now().withNano(0);
+    }
 
     @Builder
-    public Reservation(User user, Concert concert, Ticket ticket, ReservationStatus status) {
+    public Reservation(User user, Concert concert, Ticket ticket, int status) {
         this.user = user;
         this.concert = concert;
         this.ticket = ticket;
