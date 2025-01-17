@@ -1,7 +1,6 @@
 package com.ticketing.project.service;
 
 import com.ticketing.project.entity.Ticket;
-import com.ticketing.project.enums.TicketStatus;
 import com.ticketing.project.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static com.ticketing.project.enums.TicketStatus.*;
+import static com.ticketing.project.util.enums.TicketStatus.*;
 
 @Service
 @RequiredArgsConstructor

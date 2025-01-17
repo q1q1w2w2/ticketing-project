@@ -2,7 +2,6 @@ package com.ticketing.project.service;
 
 import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.*;
-import com.ticketing.project.enums.TicketStatus;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
 import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
@@ -12,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static com.ticketing.project.enums.TicketStatus.*;
+import static com.ticketing.project.util.enums.TicketStatus.*;
 
 @Service
 @RequiredArgsConstructor

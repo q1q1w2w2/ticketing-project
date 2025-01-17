@@ -1,4 +1,4 @@
-package com.ticketing.project.enums;
+package com.ticketing.project.util.enums;
 
 public enum TicketStatus {
     AVAILABLE(0),

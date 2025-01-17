@@ -2,7 +2,7 @@ package com.ticketing.project.service;
 
 import com.ticketing.project.dto.user.SignupDto;
 import com.ticketing.project.entity.User;
-import com.ticketing.project.enums.Role;
+import com.ticketing.project.util.enums.Role;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
 import com.ticketing.project.execption.user.UserNotFoundException;
 import com.ticketing.project.repository.UserRepository;

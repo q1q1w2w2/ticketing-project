@@ -6,4 +6,8 @@ public class NoAvailableSeatException extends RuntimeException {
     public NoAvailableSeatException() {
         super(ErrorMessages.NO_AVAILABLE_SEAT);
     }
+
+    public NoAvailableSeatException(String message) {
+        super(message);
+    }
 }

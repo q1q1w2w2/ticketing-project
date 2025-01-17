@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.ticketing.project.enums.Role.*;
+import static com.ticketing.project.util.enums.Role.*;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 @Component

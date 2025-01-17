@@ -1,6 +1,5 @@
 package com.ticketing.project.entity;
 
-import com.ticketing.project.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static com.ticketing.project.enums.TicketStatus.*;
+import static com.ticketing.project.util.enums.TicketStatus.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 

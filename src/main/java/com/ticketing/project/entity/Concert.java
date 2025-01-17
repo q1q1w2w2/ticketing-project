@@ -1,6 +1,7 @@
 package com.ticketing.project.entity;
 
 import com.ticketing.project.execption.reservation.NoAvailableSeatException;
+import com.ticketing.project.util.enums.ConcertStatus;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,8 +42,14 @@ public class Concert {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private ConcertStatus status;
+
+    @Column(name = "totalAmount")
     private int totalAmount;
 
+    @Column(name = "reservedAmount")
     private int reservedAmount = 0;
 
     @PrePersist
@@ -51,13 +58,28 @@ public class Concert {
     }
 
     @Builder
-    public Concert(Location location, String title, LocalDateTime concertAt, LocalDateTime openAt, LocalDateTime closeAt, int totalAmount) {
+    public Concert(Location location, String title, LocalDateTime concertAt, LocalDateTime openAt, LocalDateTime closeAt, int totalAmount, ConcertStatus status) {
         this.location = location;
         this.title = title;
         this.concertAt = concertAt;
-        this.openAt = openAt;
-        this.closeAt = closeAt;
+        setOpenAt(openAt);
+        setCloseAt(closeAt);
         this.totalAmount = totalAmount;
+        this.status = status;
+    }
+
+    private void setOpenAt(LocalDateTime openAt) {
+        if (openAt.getMinute() % 30 != 0) {
+            throw new IllegalArgumentException("예매 시작 시간은 30분 단위로 설정해야 합니다.");
+        }
+        this.openAt = openAt;
+    }
+
+    private void setCloseAt(LocalDateTime closeAt) {
+        if (closeAt.getMinute() % 30 != 0) {
+            throw new IllegalArgumentException("예매 종료 시간은 30분 단위로 설정해야 합니다.");
+        }
+        this.closeAt = closeAt;
     }
 
     public void increasedReservedAmount() {
@@ -69,8 +91,12 @@ public class Concert {
 
     public void decreaseReservedAmount() {
         if (reservedAmount <= 0) {
-            throw new NoAvailableSeatException();
+            throw new NoAvailableSeatException("예약된 좌석이 없습니다.");
         }
         reservedAmount--;
+    }
+
+    public void changeStatus(ConcertStatus status) {
+        this.status = status;
     }
 }
