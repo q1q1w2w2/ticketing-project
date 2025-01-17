@@ -2,6 +2,7 @@ package com.project.ticketing.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,8 +41,29 @@ public class Concert {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    private int totalAmount;
+
+    private int reservedAmount = 0;
+
     @PrePersist
     private void createdAt() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Concert(Location location, String title, LocalDateTime concertAt, LocalDateTime openAt, LocalDateTime closeAt, int totalAmount, int reservedAmount) {
+        this.location = location;
+        this.title = title;
+        this.concertAt = concertAt;
+        this.openAt = openAt;
+        this.closeAt = closeAt;
+        this.totalAmount = totalAmount;
+    }
+
+    public void increasedReservedAmount() {
+        if (reservedAmount >= totalAmount) {
+            throw new IllegalArgumentException("남은 좌석이 없습니다.");
+        }
+        reservedAmount++;
     }
 }

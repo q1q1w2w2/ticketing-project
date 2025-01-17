@@ -25,4 +25,12 @@ public class Ticket {
     @Column(name = "issue_at")
     private LocalDateTime issueAt;
 
+    public Ticket(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    @PrePersist
+    private void setIssueAt() {
+        this.issueAt = LocalDateTime.now();
+    }
 }

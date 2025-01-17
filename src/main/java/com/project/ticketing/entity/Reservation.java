@@ -1,6 +1,8 @@
 package com.project.ticketing.entity;
 
+import com.project.ticketing.util.enums.ReservationStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +32,13 @@ public class Reservation {
     private Ticket ticket;
 
     @Column(name = "status")
-    private String status;
+    private ReservationStatus status;
 
-
+    @Builder
+    public Reservation(User user, Concert concert, Ticket ticket, ReservationStatus status) {
+        this.user = user;
+        this.concert = concert;
+        this.ticket = ticket;
+        this.status = status;
+    }
 }

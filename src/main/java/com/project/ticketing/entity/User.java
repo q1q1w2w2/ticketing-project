@@ -2,6 +2,7 @@ package com.project.ticketing.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,5 +42,14 @@ public class User {
     @PrePersist
     private void createAt() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public User(String username, String email, String password, String tel, String role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.tel = tel;
+        this.role = role;
     }
 }

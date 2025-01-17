@@ -2,6 +2,7 @@ package com.project.ticketing.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +36,12 @@ public class Location {
     @PrePersist
     private void createdAt() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Location(String locationName, String address, int totalSeat) {
+        this.locationName = locationName;
+        this.address = address;
+        this.totalSeat = totalSeat;
     }
 }
