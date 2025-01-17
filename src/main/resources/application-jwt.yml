@@ -1,0 +1,6 @@
+jwt:
+  header: Authorization
+  secret: dGhpcy1pcy1zZWNyZXQta2V5LXRoaXMtaXMtc2VjcmV0LWtleS10aGlzLWlzLXNlY3JldC1rZXktdGhpcy1pcy1zZWNyZXQta2V5LXRoaXMtaXMtc2VjcmV0LWtleQ==
+  access-token-expire-time: 43200 # 12시간
+  refresh-token-expire-time: 604800 # 7일
+  claim-key: claim-secret
