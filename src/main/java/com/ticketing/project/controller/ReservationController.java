@@ -33,7 +33,7 @@ public class ReservationController {
     @PatchMapping
     public ResponseEntity cancelReservation(@RequestParam Long id) {
         User user = userService.getCurrentUser();
-        reservationService.cancelReservations(id, user);
+        reservationService.cancelReservation(id, user);
 
         ApiResponse<Object> response = ApiResponse.success(OK, "취소가 완료되었습니다.");
         return ResponseEntity.status(OK).body(response);

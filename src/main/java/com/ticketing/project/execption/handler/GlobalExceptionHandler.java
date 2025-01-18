@@ -4,6 +4,7 @@ import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.execption.auth.TokenValidationException;
 import com.ticketing.project.execption.concert.ConcertAlreadyCancelException;
 import com.ticketing.project.execption.concert.ConcertNotFoundException;
+import com.ticketing.project.execption.concert.InvalidConcertStatusException;
 import com.ticketing.project.execption.concert.InvalidConcertTimeException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.execption.reservation.NoAvailableSeatException;
@@ -95,6 +96,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidConcertTimeException.class)
     public ResponseEntity<ApiResponse<Object>> handleInvalidConcertTimeException(InvalidConcertTimeException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidConcertStatusException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidConcertStatusException(InvalidConcertStatusException e) {
         return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 

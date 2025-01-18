@@ -2,17 +2,21 @@ package com.ticketing.project.service;
 
 import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.*;
+import com.ticketing.project.execption.concert.InvalidConcertStatusException;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
 import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.ReservationRepository;
+import com.ticketing.project.util.enums.ConcertStatus;
+import com.ticketing.project.util.enums.TicketStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.ticketing.project.util.enums.ConcertStatus.*;
 import static com.ticketing.project.util.enums.TicketStatus.*;
 
 @Service
@@ -28,6 +32,10 @@ public class ReservationService {
     public ReservationResponseDto ticketing(Long concertId, User user) {
         Concert concert = concertRepository.findByIdForUpdate(concertId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 공연을 찾을 수 없습니다."));
+
+        if (!concert.getStatus().equals(RESERVATION_START)) {
+            throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
+        }
 
         if (reservationRepository.findByUserAndConcertAndStatus(user, concert, AVAILABLE.value).isPresent()) {
             throw new SingleTicketPerUserException();
@@ -49,7 +57,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public void cancelReservations(Long reservationId, User user) {
+    public void cancelReservation(Long reservationId, User user) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(ReservationNotFoundException::new);
 
