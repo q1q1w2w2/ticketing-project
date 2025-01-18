@@ -2,6 +2,7 @@ package com.ticketing.project.service;
 
 import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.*;
+import com.ticketing.project.execption.concert.ConcertNotFoundException;
 import com.ticketing.project.execption.concert.InvalidConcertStatusException;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
 import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
@@ -67,12 +68,13 @@ public class ReservationService {
         if (reservation.getStatus() == CANCEL || reservation.getStatus() == EXPIRED) {
             throw new ReservationNotFoundException();
         }
-        reservation.cancel();
 
         Ticket ticket = reservation.getTicket();
         ticket.cancel();
+        reservation.cancel();
 
-        Concert concert = reservation.getConcert();
+        Concert concert = concertRepository.findByIdForUpdate(reservation.getConcert().getId())
+                .orElseThrow(ConcertNotFoundException::new);
         concert.decreaseReservedAmount();
     }
 
