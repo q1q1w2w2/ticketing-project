@@ -49,7 +49,7 @@ public class ReservationService {
                 .user(user)
                 .concert(concert)
                 .ticket(ticket)
-                .status(AVAILABLE.value)
+                .status(AVAILABLE)
                 .build();
         reservationRepository.save(reservation);
 
@@ -64,7 +64,7 @@ public class ReservationService {
         if (!reservation.getUser().equals(user)) {
             throw new InvalidOwnerException();
         }
-        if (reservation.getStatus() == CANCEL.value || reservation.getStatus() == EXPIRED.value) {
+        if (reservation.getStatus() == CANCEL || reservation.getStatus() == EXPIRED) {
             throw new ReservationNotFoundException();
         }
         reservation.cancel();

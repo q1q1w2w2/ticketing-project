@@ -1,5 +1,6 @@
 package com.ticketing.project.entity;
 
+import com.ticketing.project.util.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +34,9 @@ public class Reservation {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
-    private int status;
+    private TicketStatus status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -45,7 +47,7 @@ public class Reservation {
     }
 
     @Builder
-    public Reservation(User user, Concert concert, Ticket ticket, int status) {
+    public Reservation(User user, Concert concert, Ticket ticket, TicketStatus status) {
         this.user = user;
         this.concert = concert;
         this.ticket = ticket;
@@ -53,6 +55,10 @@ public class Reservation {
     }
 
     public void cancel() {
-        this.status = CANCEL.value;
+        this.status = CANCEL;
+    }
+
+    public void expired() {
+        this.status = EXPIRED;
     }
 }

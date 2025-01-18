@@ -19,7 +19,7 @@ public class TicketService {
 
     @Transactional
     public Ticket generateTicket() {
-        Ticket ticket = new Ticket(UUID.randomUUID().toString(), AVAILABLE.value);
+        Ticket ticket = new Ticket(UUID.randomUUID().toString(), AVAILABLE);
         return ticketRepository.save(ticket);
     }
 }

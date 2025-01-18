@@ -1,5 +1,6 @@
 package com.ticketing.project.entity;
 
+import com.ticketing.project.util.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,20 +27,25 @@ public class Ticket {
     @Column(name = "issue_at")
     private LocalDateTime issueAt;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
-    private int status;
+    private TicketStatus status;
 
     @PrePersist
     private void setIssueAt() {
         this.issueAt = LocalDateTime.now().withNano(0);
     }
 
-    public Ticket(String serialNumber, int status) {
+    public Ticket(String serialNumber, TicketStatus status) {
         this.serialNumber = serialNumber;
         this.status = status;
     }
 
     public void cancel() {
-        this.status = CANCEL.value;
+        this.status = CANCEL;
+    }
+
+    public void expired() {
+        this.status = EXPIRED;
     }
 }

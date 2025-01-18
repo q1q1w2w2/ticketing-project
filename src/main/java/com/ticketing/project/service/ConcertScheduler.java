@@ -2,7 +2,6 @@ package com.ticketing.project.service;
 
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.repository.ConcertRepository;
-import com.ticketing.project.util.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +22,7 @@ public class ConcertScheduler {
     private final ConcertRepository concertRepository;
 
     @Transactional
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void updateConcertStatus() {
         LocalDateTime now = LocalDateTime.now();
         log.info("현재 시각: {}", now);
