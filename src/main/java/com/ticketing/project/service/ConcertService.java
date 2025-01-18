@@ -5,12 +5,15 @@ import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.Location;
 import com.ticketing.project.execption.concert.ConcertAlreadyCancelException;
 import com.ticketing.project.execption.concert.ConcertNotFoundException;
+import com.ticketing.project.execption.concert.InvalidConcertTimeException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 import static com.ticketing.project.util.enums.ConcertStatus.*;
 
@@ -27,6 +30,18 @@ public class ConcertService {
     public Concert saveConcert(CreateConcertDto dto) {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(LocationNotFoundException::new);
+
+        LocalDateTime now = LocalDateTime.now();
+        if (!dto.getOpenAt().isAfter(now)) {
+            throw new InvalidConcertTimeException("오픈 시간은 현재 시간 이후여야 합니다.");
+        }
+        if (!dto.getCloseAt().isAfter(now) && !dto.getCloseAt().isAfter(dto.getOpenAt())) {
+            throw new InvalidConcertTimeException("마감 시간은 오픈 시간 이후여야 합니다.");
+        }
+        if(!dto.getConcertAt().isAfter(dto.getCloseAt())) {
+            throw new InvalidConcertTimeException("콘서트 시간은 마감 시간 이후여야 합니다.");
+        }
+
         Concert concert = Concert.builder()
                 .title(dto.getTitle())
                 .concertAt(dto.getConcertAt())
