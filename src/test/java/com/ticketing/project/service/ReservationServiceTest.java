@@ -1,5 +1,6 @@
 package com.ticketing.project.service;
 
+import com.ticketing.project.config.RabbitConfig;
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.Location;
 import com.ticketing.project.entity.Reservation;

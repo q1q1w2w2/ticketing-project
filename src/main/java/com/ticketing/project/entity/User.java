@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.GenerationType.*;
@@ -14,7 +15,7 @@ import static lombok.AccessLevel.*;
 @Table(name = "`user`")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
