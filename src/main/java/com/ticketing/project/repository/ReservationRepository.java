@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    Optional<Reservation> findByUserAndConcertAndStatus(User user, Concert concert, int status);
+    Optional<Reservation> findByUserAndConcertAndStatus(User user, Concert concert, TicketStatus status);
 
     List<Reservation> findAllByConcert(Concert concert);
 

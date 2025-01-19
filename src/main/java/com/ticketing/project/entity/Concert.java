@@ -14,6 +14,7 @@ import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
+@Table(name = "concert")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 public class Concert {

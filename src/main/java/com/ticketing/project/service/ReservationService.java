@@ -32,13 +32,13 @@ public class ReservationService {
     @Transactional
     public ReservationResponseDto ticketing(Long concertId, User user) {
         Concert concert = concertRepository.findByIdForUpdate(concertId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 공연을 찾을 수 없습니다."));
+                .orElseThrow(ConcertNotFoundException::new);
 
         if (!concert.getStatus().equals(RESERVATION_START)) {
             throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }
 
-        if (reservationRepository.findByUserAndConcertAndStatus(user, concert, AVAILABLE.value).isPresent()) {
+        if (reservationRepository.findByUserAndConcertAndStatus(user, concert, AVAILABLE).isPresent()) {
             throw new SingleTicketPerUserException();
         }
 

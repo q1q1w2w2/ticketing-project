@@ -2,19 +2,25 @@ package com.ticketing.project.service;
 
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.Location;
+import com.ticketing.project.entity.Reservation;
 import com.ticketing.project.entity.User;
 import com.ticketing.project.repository.*;
+import com.ticketing.project.util.enums.ConcertStatus;
+import com.ticketing.project.util.enums.TicketStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.ticketing.project.util.enums.ConcertStatus.*;
+import static com.ticketing.project.util.enums.TicketStatus.*;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -58,6 +64,7 @@ class ReservationServiceTest {
                 .concertAt(LocalDateTime.of(2025, 1, 30, 21, 0))
                 .openAt(LocalDateTime.of(2025, 1, 10, 10, 0))
                 .closeAt(LocalDateTime.of(2025, 1, 11, 10, 0))
+                .status(RESERVATION_START)
                 .totalAmount(savedLocation.getTotalSeat())
                 .build();
         Concert savedConcert = concertRepository.save(concert);
@@ -71,7 +78,7 @@ class ReservationServiceTest {
         // when
         for (int i = 0; i < userCount; i++) {
             User user = User.builder()
-                    .email("email")
+                    .email("email+" + i + "@gmail.com")
                     .password("pwd")
                     .tel("010-1234-1234")
                     .build();
@@ -94,7 +101,10 @@ class ReservationServiceTest {
         System.out.println("successCount = " + successCount);
         System.out.println("failCount = " + failCount);
 
+        Concert foundConcert = concertRepository.findById(savedConcert.getId()).orElseThrow();
+
         // then
         assertThat(reservationRepository.count()).isEqualTo(remainAmount);
+        assertThat(foundConcert.getReservedAmount()).isEqualTo(remainAmount);
     }
 }

@@ -11,6 +11,7 @@ import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
+@Table(name = "location")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 public class Location {
