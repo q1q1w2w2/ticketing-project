@@ -27,11 +27,9 @@ public class ReservationController {
     @PostMapping
     public ResponseEntity<ApiResponse<ReservationResponseDto>> createReservation(@Valid @RequestBody CreateReservationDto reservationDto) {
         User user = userService.getCurrentUser();
-//        ReservationResponseDto result = reservationService.ticketing(reservationDto.getConcertId(), user);
-        producer.sendReservation(reservationDto.getConcertId(), user);
+        ReservationResponseDto result = reservationService.ticketing(reservationDto.getConcertId(), user);
 
-//        ApiResponse<ReservationResponseDto> response = ApiResponse.success(CREATED, "예매가 완료되었습니다.", result);
-        ApiResponse<ReservationResponseDto> response = ApiResponse.success(CREATED, "예매 요청이 완료되었습니다.");
+        ApiResponse<ReservationResponseDto> response = ApiResponse.success(CREATED, "예매가 완료되었습니다.", result);
         return ResponseEntity.status(CREATED).body(response);
     }
 
