@@ -10,6 +10,7 @@ import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.execption.reservation.NoAvailableSeatException;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
 import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
+import com.ticketing.project.execption.ticket.TicketNotFoundException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
 import com.ticketing.project.execption.user.UserNotFoundException;
@@ -101,6 +102,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidConcertStatusException.class)
     public ResponseEntity<ApiResponse<Object>> handleInvalidConcertStatusException(InvalidConcertStatusException e) {
+        return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(TicketNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleTicketNotFoundException(TicketNotFoundException e) {
         return createErrorResponse(e, BAD_REQUEST, e.getMessage());
     }
 

@@ -1,6 +1,8 @@
 package com.ticketing.project.service;
 
+import com.ticketing.project.dto.ticket.TicketResponseDto;
 import com.ticketing.project.entity.Ticket;
+import com.ticketing.project.execption.ticket.TicketNotFoundException;
 import com.ticketing.project.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,5 +23,11 @@ public class TicketService {
     public Ticket generateTicket() {
         Ticket ticket = new Ticket(UUID.randomUUID().toString(), AVAILABLE);
         return ticketRepository.save(ticket);
+    }
+
+    public TicketResponseDto findByUuid(String uuid) {
+        Ticket ticket = ticketRepository.findBySerialNumber(uuid)
+                .orElseThrow(TicketNotFoundException::new);
+        return new TicketResponseDto(ticket);
     }
 }
