@@ -17,4 +17,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findAllByConcert(Concert concert);
 
     List<Reservation> findAllByStatus(TicketStatus status);
+
+    List<Reservation> findAllByUser(User user);
 }

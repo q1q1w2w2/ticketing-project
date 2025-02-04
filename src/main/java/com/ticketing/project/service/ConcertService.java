@@ -1,5 +1,6 @@
 package com.ticketing.project.service;
 
+import com.ticketing.project.dto.concert.ConcertResponseDto;
 import com.ticketing.project.dto.concert.CreateConcertDto;
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.Location;
@@ -9,11 +10,14 @@ import com.ticketing.project.execption.concert.InvalidConcertTimeException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.LocationRepository;
+import com.ticketing.project.util.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.ticketing.project.util.enums.ConcertStatus.*;
 
@@ -65,6 +69,21 @@ public class ConcertService {
         concert.changeStatus(CANCELLED);
 
         reservationService.cancelReservations(concert);
+    }
+
+    public ConcertResponseDto getConcert(Long concertId) {
+        Concert concert = concertRepository.findById(concertId)
+                .orElseThrow(ConcertNotFoundException::new);
+        return new ConcertResponseDto(concert);
+    }
+
+    public List<ConcertResponseDto> getConcerts() {
+        List<ConcertResponseDto> concertsDto = new ArrayList<>();
+        List<Concert> concerts = concertRepository.findAllByStatusNotIn(List.of(CANCELLED, FINISHED));
+        for (Concert concert : concerts) {
+            concertsDto.add(new ConcertResponseDto(concert));
+        }
+        return concertsDto;
     }
 
 }

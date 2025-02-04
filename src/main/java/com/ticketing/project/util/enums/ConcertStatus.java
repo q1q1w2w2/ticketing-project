@@ -4,7 +4,8 @@ public enum ConcertStatus {
     SCHEDULED(0),
     RESERVATION_START(1),
     RESERVATION_CLOSED(2),
-    CANCELLED(3);
+    CANCELLED(3),
+    FINISHED(4),;
 
     public int value;
 

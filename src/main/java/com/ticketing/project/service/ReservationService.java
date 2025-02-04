@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.ticketing.project.util.enums.ConcertStatus.*;
@@ -88,4 +89,12 @@ public class ReservationService {
         }
     }
 
+    public List<ReservationResponseDto> getReservations(User user) {
+        List<ReservationResponseDto> reservationsDto = new ArrayList<>();
+        List<Reservation> reservations = reservationRepository.findAllByUser(user);
+        for (Reservation reservation : reservations) {
+            reservationsDto.add(new ReservationResponseDto(reservation));
+        }
+        return reservationsDto;
+    }
 }

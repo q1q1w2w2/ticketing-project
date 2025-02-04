@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -29,10 +31,25 @@ public class ConcertController {
     }
 
     @PatchMapping("/cancel")
-    public ResponseEntity cancelConcert(@RequestParam Long concertId) {
+    public ResponseEntity<ApiResponse<Object>> cancelConcert(@RequestParam Long concertId) {
         concertService.cancelConcert(concertId);
 
         ApiResponse<Object> response = ApiResponse.success(OK, "콘서트가 취소되었습니다.");
+        return ResponseEntity.status(OK).body(response);
+    }
+
+    @GetMapping("/{concertId}")
+    public ResponseEntity<ApiResponse<ConcertResponseDto>> getConcert(@PathVariable Long concertId) {
+        ConcertResponseDto concert = concertService.getConcert(concertId);
+
+        ApiResponse<ConcertResponseDto> response = ApiResponse.success(OK, concert);
+        return ResponseEntity.status(OK).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ConcertResponseDto>>> getConcerts() {
+        List<ConcertResponseDto> concerts = concertService.getConcerts();
+        ApiResponse<List<ConcertResponseDto>> response = ApiResponse.success(OK, concerts);
         return ResponseEntity.status(OK).body(response);
     }
 }

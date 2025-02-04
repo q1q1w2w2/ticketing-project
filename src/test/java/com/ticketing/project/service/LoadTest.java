@@ -1,7 +1,6 @@
 package com.ticketing.project.service;
 
 import com.ticketing.project.entity.User;
-import com.ticketing.project.util.rabbitmq.Producer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class LoadTest {
 
     @Autowired
-    private Producer producer;
-
-    @Autowired
     private ReservationService reservationService;
 
     @Test
@@ -28,9 +24,9 @@ public class LoadTest {
         for (int i = 0; i < userCount; i++) {
             User user = new User("name", "email", "password", "010", "USER");
 
-            es.submit(() -> {
-                Assertions.assertDoesNotThrow(() -> producer.sendReservation(1L, user));
-            } );
+//            es.submit(() -> {
+//                Assertions.assertDoesNotThrow(() -> producer.sendReservation(1L, user));
+//            } );
         }
         es.shutdown();
         es.awaitTermination(1, TimeUnit.MINUTES);

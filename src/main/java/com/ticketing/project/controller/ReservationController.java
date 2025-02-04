@@ -6,14 +6,17 @@ import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.User;
 import com.ticketing.project.service.ReservationService;
 import com.ticketing.project.service.UserService;
-import com.ticketing.project.util.rabbitmq.Producer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reservation")
@@ -21,8 +24,6 @@ public class ReservationController {
 
     private final ReservationService reservationService;
     private final UserService userService;
-
-    private final Producer producer;
 
     @PostMapping
     public ResponseEntity<ApiResponse<ReservationResponseDto>> createReservation(@Valid @RequestBody CreateReservationDto reservationDto) {
@@ -34,11 +35,20 @@ public class ReservationController {
     }
 
     @PatchMapping
-    public ResponseEntity cancelReservation(@RequestParam Long id) {
+    public ResponseEntity<ApiResponse<Object>> cancelReservation(@RequestParam Long id) {
         User user = userService.getCurrentUser();
         reservationService.cancelReservation(id, user);
 
         ApiResponse<Object> response = ApiResponse.success(OK, "취소가 완료되었습니다.");
+        return ResponseEntity.status(OK).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ReservationResponseDto>>> getReservations() {
+        User user = userService.getCurrentUser();
+        List<ReservationResponseDto> reservations = reservationService.getReservations(user);
+
+        ApiResponse<List<ReservationResponseDto>> response = ApiResponse.success(OK, reservations);
         return ResponseEntity.status(OK).body(response);
     }
 }
