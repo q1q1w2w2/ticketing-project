@@ -2,6 +2,7 @@ package com.ticketing.project.execption.handler;
 
 import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.execption.auth.TokenValidationException;
+import com.ticketing.project.execption.auth.TooManyRequestException;
 import com.ticketing.project.execption.concert.ConcertAlreadyCancelException;
 import com.ticketing.project.execption.concert.ConcertNotFoundException;
 import com.ticketing.project.execption.concert.InvalidConcertStatusException;
@@ -22,6 +23,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.TooManyListenersException;
 
 import static com.ticketing.project.execption.messages.ErrorMessages.*;
 import static org.springframework.http.HttpStatus.*;
@@ -108,6 +111,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TicketNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleTicketNotFoundException(TicketNotFoundException e) {
         return createErrorResponse(e, BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(TooManyRequestException.class)
+    public ResponseEntity<ApiResponse<Object>> handleTooManyRequestException(TooManyRequestException e) {
+        return createErrorResponse(e, TOO_MANY_REQUESTS, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

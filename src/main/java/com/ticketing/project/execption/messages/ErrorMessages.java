@@ -25,4 +25,6 @@ public class ErrorMessages {
 
     public static final String SINGLE_TICKET_PER_USER = "콘서트 당 하나의 티켓만 발급 가능합니다.";
     public static final String ALREADY_CANCEL = "이미 취소된 콘서트입니다.";
+
+    public static final String TOO_MANY_REQUEST = "요청이 너무 많습니다. 1분 뒤에 시도하세요.";
 }

@@ -35,7 +35,7 @@ public class ReservationService {
         Concert concert = concertRepository.findByIdForUpdate(concertId)
                 .orElseThrow(ConcertNotFoundException::new);
 
-        if (!concert.getStatus().equals(RESERVATION_START)) {
+        if (concert.getStatus() != RESERVATION_START) {
             throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }
 
@@ -43,9 +43,9 @@ public class ReservationService {
             throw new SingleTicketPerUserException();
         }
 
-        concert.increasedReservedAmount();
-
         Ticket ticket = ticketService.generateTicket();
+
+        concert.increasedReservedAmount();
 
         Reservation reservation = Reservation.builder()
                 .user(user)
@@ -53,9 +53,9 @@ public class ReservationService {
                 .ticket(ticket)
                 .status(AVAILABLE)
                 .build();
-        reservationRepository.save(reservation);
+        Reservation savedReservation = reservationRepository.save(reservation);
 
-        return new ReservationResponseDto(concert, ticket);
+        return new ReservationResponseDto(savedReservation);
     }
 
     @Transactional
