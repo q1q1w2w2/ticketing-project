@@ -4,6 +4,7 @@ import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.*;
 import com.ticketing.project.execption.concert.ConcertNotFoundException;
 import com.ticketing.project.execption.concert.InvalidConcertStatusException;
+import com.ticketing.project.execption.reservation.NoAvailableSeatException;
 import com.ticketing.project.execption.reservation.ReservationNotFoundException;
 import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
@@ -45,6 +46,9 @@ public class ReservationService {
 
         Ticket ticket = ticketService.generateTicket();
 
+        if (!concert.canIncreaseReservedAmount()) {
+            throw new NoAvailableSeatException();
+        }
         concert.increasedReservedAmount();
 
         Reservation reservation = Reservation.builder()

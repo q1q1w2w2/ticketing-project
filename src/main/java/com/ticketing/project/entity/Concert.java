@@ -83,10 +83,11 @@ public class Concert {
         this.closeAt = closeAt;
     }
 
+    public boolean canIncreaseReservedAmount() {
+        return reservedAmount < totalAmount;
+    }
+
     public void increasedReservedAmount() {
-        if (reservedAmount >= totalAmount) {
-            throw new NoAvailableSeatException();
-        }
         reservedAmount++;
     }
 
