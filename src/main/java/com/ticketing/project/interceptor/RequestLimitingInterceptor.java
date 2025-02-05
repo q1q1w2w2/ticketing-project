@@ -19,13 +19,14 @@ public class RequestLimitingInterceptor implements HandlerInterceptor {
     private final RedisTemplate<String, Object> redisTemplate;
     private static final int MAX_REQUEST = 5;
     private static final long LIMIT_TIME = 60;
+    private static final String KEY_PREFIX = "request_limit";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
 
         String ip = request.getRemoteAddr();
-        String key = "request_limit:" + ip;
+        String key = KEY_PREFIX + ip;
 
         Long requestCount = operations.increment(key);
 

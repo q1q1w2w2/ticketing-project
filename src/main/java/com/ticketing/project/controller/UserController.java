@@ -27,8 +27,8 @@ public class UserController {
     public ResponseEntity<ApiResponse<SignupResponseDto>> signUp(@Valid @RequestBody SignupDto signupDto) {
         User user = userService.signup(signupDto);
 
-        SignupResponseDto data = new SignupResponseDto(user);
-        return createResponse(CREATED, "회원가입이 완료되었습니다.", data);
+        SignupResponseDto userInfo = new SignupResponseDto(user);
+        return createResponse(CREATED, "회원가입이 완료되었습니다.", userInfo);
     }
 
     private <T> ResponseEntity<ApiResponse<T>> createResponse(HttpStatus status, String message, T data) {
