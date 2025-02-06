@@ -10,8 +10,6 @@ import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.ReservationRepository;
-import com.ticketing.project.util.enums.ConcertStatus;
-import com.ticketing.project.util.enums.TicketStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
