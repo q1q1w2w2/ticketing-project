@@ -1,5 +1,6 @@
 package com.ticketing.project.util.websocket;
 
+import com.ticketing.project.service.ReservationService;
 import com.ticketing.project.util.enums.QueueStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

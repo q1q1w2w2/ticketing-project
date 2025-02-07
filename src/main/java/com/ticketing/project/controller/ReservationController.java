@@ -27,20 +27,20 @@ public class ReservationController {
     private final QueueService queueService;
     private final UserService userService;
 
-    @PostMapping("/queue")
-    public ResponseEntity<ApiResponse<Object>> joinQueue() {
+    @PostMapping("/queue/{concertId}")
+    public ResponseEntity<ApiResponse<Object>> joinQueue(@PathVariable Long concertId) {
         User user = userService.getCurrentUser();
-        boolean isAlreadyJoin = queueService.joinQueue(user);
+        boolean isAlreadyJoin = queueService.joinQueue(user, concertId);
 
         String message = isAlreadyJoin ? "이미 대기열에 참가중입니다." : "대기열에 참가했습니다.";
         ApiResponse<Object> response = ApiResponse.success(OK, message);
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/leave")
-    public ResponseEntity<ApiResponse<Object>> leaveQueue() {
+    @PostMapping("/leave/{concertId}")
+    public ResponseEntity<ApiResponse<Object>> leaveQueue(@PathVariable Long concertId) {
         User user = userService.getCurrentUser();
-        queueService.leaveQueue(user);
+        queueService.leaveQueue(user, concertId);
 
         ApiResponse<Object> response = ApiResponse.success(OK, "대기열에서 나갔습니다.");
         return ResponseEntity.ok().body(response);
@@ -48,8 +48,7 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<ReservationResponseDto>> requestTicketing(@Valid @RequestBody CreateReservationDto reservationDto) {
-        User user = userService.getCurrentUser();
-        ReservationResponseDto result = reservationService.ticketing(reservationDto.getConcertId(), user);
+        ReservationResponseDto result = reservationService.ticketing(reservationDto.getConcertId());
 
         ApiResponse<ReservationResponseDto> response = ApiResponse.success(CREATED, "예매가 완료되었습니다.", result);
         return ResponseEntity.status(CREATED).body(response);

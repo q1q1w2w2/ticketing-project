@@ -28,9 +28,11 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ConcertRepository concertRepository;
     private final TicketService ticketService;
+    private final UserService userService;
 
     @Transactional
-    public ReservationResponseDto ticketing(Long concertId, User user) {
+    public ReservationResponseDto ticketing(Long concertId) {
+        User user = userService.getCurrentUser();
         Concert concert = concertRepository.findByIdForUpdate(concertId)
                 .orElseThrow(ConcertNotFoundException::new);
 
