@@ -45,7 +45,27 @@ public class QueueService {
     public boolean joinQueue(User user, Long concertId) {
         Concert concert = concertRepository.findById(concertId)
                 .orElseThrow(ConcertNotFoundException::new);
+        validCheck(user, concert);
 
+        String userKey = String.valueOf(user.getId());
+        String queueKey = QUEUE_KEY + concertId;
+
+        ZSetOperations<String, String> operations = redisTemplate.opsForZSet();
+        if (operations.rank(queueKey, userKey) != null) {
+            return true;
+        }
+
+        addUserToQueue(queueKey, userKey, concertId);
+
+        Long rank = retryGetRank(queueKey, userKey);
+        if (rank == null) {
+            throw new RuntimeException("대기열 참가 실패");
+        }
+        webSocketHandler.sendJoinMessage(userKey, rank, WAITING);
+        return false;
+    }
+
+    private void validCheck(User user, Concert concert) {
         if (concert.getStatus() != RESERVATION_START) {
             throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }
@@ -53,29 +73,12 @@ public class QueueService {
         if (reservationRepository.findByUserAndConcertAndStatus(user, concert, AVAILABLE).isPresent()) {
             throw new SingleTicketPerUserException();
         }
+    }
 
-        String userKey = String.valueOf(user.getId());
-        String queueKey = QUEUE_KEY + concertId;
-
+    private void addUserToQueue(String queueKey, String userKey, Long concertId) {
         ZSetOperations<String, String> operations = redisTemplate.opsForZSet();
-
-        if (operations.rank(queueKey, userKey) != null) {
-            return true;
-        }
-
         operations.add(queueKey, userKey, System.currentTimeMillis());
         redisTemplate.opsForSet().add(QUEUE_ACTIVE_KEY, concertId.toString());
-
-        Long rank = retryGetRank(queueKey, userKey);
-
-        if (rank == null) {
-            throw new RuntimeException("대기열 참가 실패");
-        } else {
-            QueueStatus status = rank > MAX_USERS ? WAITING : COMP;
-            webSocketHandler.sendJoinMessage(userKey, rank, status);
-        }
-
-        return false;
     }
 
     @Scheduled(fixedRate = 2000)
@@ -137,5 +140,4 @@ public class QueueService {
         }
         return null;
     }
-
 }
