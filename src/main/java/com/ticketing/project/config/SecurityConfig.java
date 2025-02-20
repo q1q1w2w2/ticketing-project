@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers("/error", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**", "/static/js/**").permitAll()
                                 .requestMatchers("/api/users").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/reservation").permitAll()
                                 .anyRequest().authenticated()
                 )
 

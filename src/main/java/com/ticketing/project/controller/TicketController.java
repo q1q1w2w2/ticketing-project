@@ -1,10 +1,10 @@
 package com.ticketing.project.controller;
 
-import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.dto.ticket.TicketResponseDto;
 import com.ticketing.project.service.TicketService;
+import com.ticketing.project.util.common.ApiResponse;
+import com.ticketing.project.util.common.ApiResponseUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +23,6 @@ public class TicketController {
     @GetMapping("/{uuid}")
     public ResponseEntity<ApiResponse<TicketResponseDto>> getTicket(@PathVariable String uuid) {
         TicketResponseDto ticket = ticketService.findByUuid(uuid);
-
-        ApiResponse<TicketResponseDto> response = ApiResponse.success(OK, ticket);
-        return ResponseEntity.ok(response);
+        return ApiResponseUtil.createResponse(OK, ticket);
     }
 }

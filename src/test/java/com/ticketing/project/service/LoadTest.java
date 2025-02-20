@@ -41,7 +41,7 @@ public class LoadTest {
             User user = new User("name", "email", "password", "010", "USER");
 
             es.submit(() -> {
-                Assertions.assertDoesNotThrow(() -> reservationService.ticketing(1L, user));
+                Assertions.assertDoesNotThrow(() -> reservationService.ticketing(1L));
             } );
         }
         es.shutdown();

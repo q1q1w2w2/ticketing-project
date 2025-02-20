@@ -87,7 +87,7 @@ class ReservationServiceTest {
 
             executorService.submit(() -> {
                 try {
-                    reservationService.ticketing(savedConcert.getId(), savedUser);
+                    reservationService.ticketing(savedConcert.getId());
                     successCount.incrementAndGet();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
