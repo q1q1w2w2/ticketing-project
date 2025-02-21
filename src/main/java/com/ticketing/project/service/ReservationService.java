@@ -30,6 +30,7 @@ public class ReservationService {
     private final ConcertRepository concertRepository;
     private final TicketService ticketService;
     private final UserService userService;
+    private final ReservationFailureLogService failureLogService;
 
     @Transactional
     public ReservationResponseDto ticketing(Long concertId) {
@@ -40,27 +41,29 @@ public class ReservationService {
         if (lockedConcert.getStatus() != RESERVATION_START) {
             throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }
-
         if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
             throw new SingleTicketPerUserException();
         }
 
-        Ticket ticket = ticketService.generateTicket();
+        try {
+            Ticket ticket = ticketService.generateTicket();
 
-        if (!lockedConcert.canIncreaseReservedAmount()) {
-            throw new NoAvailableSeatException();
+            if (!lockedConcert.canIncreaseReservedAmount()) {
+                throw new NoAvailableSeatException();
+            }
+            lockedConcert.increasedReservedAmount();
+
+            Reservation reservation = Reservation.builder()
+                    .user(user)
+                    .concert(lockedConcert)
+                    .ticket(ticket)
+                    .status(AVAILABLE)
+                    .build();
+            return new ReservationResponseDto(reservationRepository.save(reservation));
+        } catch (Exception e) {
+            failureLogService.logFailedReservation(user.getEmail(), concertId, e.getMessage());
+            throw e;
         }
-        lockedConcert.increasedReservedAmount();
-
-        Reservation reservation = Reservation.builder()
-                .user(user)
-                .concert(lockedConcert)
-                .ticket(ticket)
-                .status(AVAILABLE)
-                .build();
-        Reservation savedReservation = reservationRepository.save(reservation);
-
-        return new ReservationResponseDto(savedReservation);
     }
 
     @Transactional

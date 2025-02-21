@@ -37,7 +37,6 @@ public class UserService {
                 .tel(dto.getTel())
                 .role(Role.ROLE_USER.toString())
                 .build();
-
         return userRepository.save(user);
     }
 

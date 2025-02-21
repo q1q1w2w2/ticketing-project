@@ -6,7 +6,6 @@ import com.ticketing.project.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +21,6 @@ public class LocationService {
                 .address(dto.getAddress())
                 .totalSeat(dto.getTotalSeat())
                 .build();
-
         return locationRepository.save(location);
     }
-
 }
