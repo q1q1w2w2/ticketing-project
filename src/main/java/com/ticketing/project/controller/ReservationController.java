@@ -6,6 +6,7 @@ import com.ticketing.project.entity.User;
 import com.ticketing.project.service.QueueService;
 import com.ticketing.project.service.ReservationService;
 import com.ticketing.project.service.UserService;
+import com.ticketing.project.util.aop.LogUserAction;
 import com.ticketing.project.util.common.ApiResponse;
 import com.ticketing.project.util.common.LoginUser;
 import jakarta.validation.Valid;
@@ -42,12 +43,14 @@ public class ReservationController {
     }
 
     @PostMapping
+    @LogUserAction("콘서트 예매")
     public ResponseEntity<ApiResponse<ReservationResponseDto>> requestTicketing(@Valid @RequestBody CreateReservationDto reservationDto) {
         ReservationResponseDto result = reservationService.ticketing(reservationDto.getConcertId());
         return createResponse(CREATED, "예매가 완료되었습니다.", result);
     }
 
     @PatchMapping
+    @LogUserAction("콘서트 취소")
     public ResponseEntity<ApiResponse<Object>> cancelReservation(@RequestParam Long id, @LoginUser User user) {
         reservationService.cancelReservation(id, user);
         return createResponse(OK, "취소가 완료되었습니다.");

@@ -4,6 +4,7 @@ import com.ticketing.project.dto.location.CreateLocationDto;
 import com.ticketing.project.dto.location.LocationResponseDto;
 import com.ticketing.project.entity.Location;
 import com.ticketing.project.service.LocationService;
+import com.ticketing.project.util.aop.LogUserAction;
 import com.ticketing.project.util.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class LocationController {
     private final LocationService locationService;
 
     @PostMapping
+    @LogUserAction("공연장 저장")
     public ResponseEntity<ApiResponse<LocationResponseDto>> saveLocation(@Valid @RequestBody CreateLocationDto locationDto) {
         Location location = locationService.saveLocation(locationDto);
         return createResponse(CREATED, "공연장이 저장되었습니다.", new LocationResponseDto(location));
