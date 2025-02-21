@@ -12,6 +12,8 @@ import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.LocationRepository;
 import com.ticketing.project.util.enums.ConcertStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

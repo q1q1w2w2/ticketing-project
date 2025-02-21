@@ -1,7 +1,7 @@
 package com.ticketing.project.util.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ticketing.project.dto.common.ApiResponse;
+import com.ticketing.project.util.common.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

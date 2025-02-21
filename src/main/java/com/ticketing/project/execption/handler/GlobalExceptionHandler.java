@@ -1,6 +1,5 @@
 package com.ticketing.project.execption.handler;
 
-import com.ticketing.project.dto.common.ApiResponse;
 import com.ticketing.project.execption.auth.TokenValidationException;
 import com.ticketing.project.execption.auth.TooManyRequestException;
 import com.ticketing.project.execption.concert.ConcertAlreadyCancelException;
@@ -15,6 +14,7 @@ import com.ticketing.project.execption.ticket.TicketNotFoundException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.execption.user.UserAlreadyExistException;
 import com.ticketing.project.execption.user.UserNotFoundException;
+import com.ticketing.project.util.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

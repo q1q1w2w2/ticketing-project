@@ -11,6 +11,7 @@ import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,27 +34,27 @@ public class ReservationService {
     @Transactional
     public ReservationResponseDto ticketing(Long concertId) {
         User user = userService.getCurrentUser();
-        Concert concert = concertRepository.findByIdForUpdate(concertId)
+        Concert lockedConcert = concertRepository.findByIdForUpdate(concertId)
                 .orElseThrow(ConcertNotFoundException::new);
 
-        if (concert.getStatus() != RESERVATION_START) {
+        if (lockedConcert.getStatus() != RESERVATION_START) {
             throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }
 
-        if (reservationRepository.findByUserAndConcertAndStatus(user, concert, AVAILABLE).isPresent()) {
+        if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
             throw new SingleTicketPerUserException();
         }
 
         Ticket ticket = ticketService.generateTicket();
 
-        if (!concert.canIncreaseReservedAmount()) {
+        if (!lockedConcert.canIncreaseReservedAmount()) {
             throw new NoAvailableSeatException();
         }
-        concert.increasedReservedAmount();
+        lockedConcert.increasedReservedAmount();
 
         Reservation reservation = Reservation.builder()
                 .user(user)
-                .concert(concert)
+                .concert(lockedConcert)
                 .ticket(ticket)
                 .status(AVAILABLE)
                 .build();
