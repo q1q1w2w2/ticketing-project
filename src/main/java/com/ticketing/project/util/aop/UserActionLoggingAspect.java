@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -23,7 +25,11 @@ public class UserActionLoggingAspect {
         String methodName = joinPoint.getSignature().toShortString();
         String actionDescription = logUserAction.value();
 
-        log.info("[User Action] {} 사용자가 [{}] 요청을 실행 ({})", user.getEmail(), actionDescription, methodName);
+//        log.info("[User Action] {} 사용자가 [{}] 요청을 실행 ({})", user.getEmail(), actionDescription, methodName);
+        String logMessage = String.format("[UserAction] [%s]사용자가 [%s]요청을 실행 (%s)", user.getEmail(), actionDescription, methodName);
+        Logger logger = LoggerFactory.getLogger("user-action");
+        logger.info(logMessage);
+
         return joinPoint.proceed();
     }
 }

@@ -35,17 +35,17 @@ public class ReservationService {
     @Transactional
     public ReservationResponseDto ticketing(Long concertId) {
         User user = userService.getCurrentUser();
-        Concert lockedConcert = concertRepository.findByIdForUpdate(concertId)
-                .orElseThrow(ConcertNotFoundException::new);
-
-        if (lockedConcert.getStatus() != RESERVATION_START) {
-            throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
-        }
-        if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
-            throw new SingleTicketPerUserException();
-        }
-
         try {
+            Concert lockedConcert = concertRepository.findByIdForUpdate(concertId)
+                    .orElseThrow(ConcertNotFoundException::new);
+
+            if (lockedConcert.getStatus() != RESERVATION_START) {
+                throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
+            }
+            if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
+                throw new SingleTicketPerUserException();
+            }
+
             Ticket ticket = ticketService.generateTicket();
 
             if (!lockedConcert.canIncreaseReservedAmount()) {
