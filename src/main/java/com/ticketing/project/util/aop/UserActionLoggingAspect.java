@@ -21,14 +21,14 @@ public class UserActionLoggingAspect {
 
     @Around("@annotation(logUserAction)")
     public Object logUserAction(ProceedingJoinPoint joinPoint, LogUserAction logUserAction) throws Throwable {
+        Logger logger = LoggerFactory.getLogger("user-action");
+
         User user = userService.getCurrentUser();
         String methodName = joinPoint.getSignature().toShortString();
         String actionDescription = logUserAction.value();
 
-//        log.info("[User Action] {} 사용자가 [{}] 요청을 실행 ({})", user.getEmail(), actionDescription, methodName);
-        String logMessage = String.format("[UserAction] [%s]사용자가 [%s]요청을 실행 (%s)", user.getEmail(), actionDescription, methodName);
-        Logger logger = LoggerFactory.getLogger("user-action");
-        logger.info(logMessage);
+        String message = String.format("[UserAction] [%s]사용자가 [%s]요청을 실행 (%s)", user.getEmail(), actionDescription, methodName);
+        logger.info(message);
 
         return joinPoint.proceed();
     }

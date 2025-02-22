@@ -9,9 +9,6 @@
 
     <!-- 파일 로그 설정 -->
     <appender name="USER_ACTION_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 기본 로그 파일 경로 -->
-        <file>logs/user-actions.log</file>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/user-actions-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
