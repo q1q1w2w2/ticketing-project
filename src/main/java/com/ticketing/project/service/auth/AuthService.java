@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.auth;
 
 import com.ticketing.project.dto.auth.LoginDto;
 import com.ticketing.project.dto.auth.TokenDto;

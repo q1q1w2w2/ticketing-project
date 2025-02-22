@@ -1,27 +1,22 @@
 package com.ticketing.project.service;
 
-import com.ticketing.project.config.RabbitConfig;
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.Location;
-import com.ticketing.project.entity.Reservation;
 import com.ticketing.project.entity.User;
 import com.ticketing.project.repository.*;
-import com.ticketing.project.util.enums.ConcertStatus;
-import com.ticketing.project.util.enums.TicketStatus;
+import com.ticketing.project.service.reservation.ReservationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.ticketing.project.util.enums.ConcertStatus.*;
-import static com.ticketing.project.util.enums.TicketStatus.*;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest

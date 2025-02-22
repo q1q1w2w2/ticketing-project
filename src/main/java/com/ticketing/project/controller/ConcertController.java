@@ -3,7 +3,7 @@ package com.ticketing.project.controller;
 import com.ticketing.project.dto.concert.ConcertResponseDto;
 import com.ticketing.project.dto.concert.CreateConcertDto;
 import com.ticketing.project.entity.Concert;
-import com.ticketing.project.service.ConcertService;
+import com.ticketing.project.service.concert.ConcertService;
 import com.ticketing.project.util.aop.LogUserAction;
 import com.ticketing.project.util.common.ApiResponse;
 import jakarta.validation.Valid;

@@ -1,6 +1,7 @@
 package com.ticketing.project.service;
 
 import com.ticketing.project.entity.User;
+import com.ticketing.project.service.reservation.ReservationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

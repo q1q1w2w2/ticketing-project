@@ -1,7 +1,5 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.reservation;
 
-import com.ticketing.project.dto.concert.ConcertResponseDto;
-import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.User;
 import com.ticketing.project.execption.concert.ConcertNotFoundException;
@@ -9,7 +7,6 @@ import com.ticketing.project.execption.concert.InvalidConcertStatusException;
 import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.ReservationRepository;
-import com.ticketing.project.util.enums.QueueStatus;
 import com.ticketing.project.util.websocket.QueueWebSocketHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +15,11 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static com.ticketing.project.util.enums.ConcertStatus.RESERVATION_START;
 import static com.ticketing.project.util.enums.QueueStatus.*;
 import static com.ticketing.project.util.enums.TicketStatus.AVAILABLE;
-import static java.util.concurrent.TimeUnit.*;
 
 @Slf4j
 @Service

@@ -2,7 +2,7 @@ package com.ticketing.project.controller;
 
 import com.ticketing.project.dto.auth.LoginDto;
 import com.ticketing.project.dto.auth.TokenDto;
-import com.ticketing.project.service.AuthService;
+import com.ticketing.project.service.auth.AuthService;
 import com.ticketing.project.util.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.user;
 
 import com.ticketing.project.dto.user.SignupDto;
 import com.ticketing.project.entity.User;

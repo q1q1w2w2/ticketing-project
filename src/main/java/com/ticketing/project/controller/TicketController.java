@@ -1,7 +1,7 @@
 package com.ticketing.project.controller;
 
 import com.ticketing.project.dto.ticket.TicketResponseDto;
-import com.ticketing.project.service.TicketService;
+import com.ticketing.project.service.reservation.TicketService;
 import com.ticketing.project.util.common.ApiResponse;
 import com.ticketing.project.util.common.ApiResponseUtil;
 import lombok.RequiredArgsConstructor;

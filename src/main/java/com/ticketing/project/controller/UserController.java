@@ -3,7 +3,7 @@ package com.ticketing.project.controller;
 import com.ticketing.project.dto.user.SignupDto;
 import com.ticketing.project.dto.user.SignupResponseDto;
 import com.ticketing.project.entity.User;
-import com.ticketing.project.service.UserService;
+import com.ticketing.project.service.user.UserService;
 import com.ticketing.project.util.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

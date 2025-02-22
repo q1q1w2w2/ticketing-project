@@ -1,7 +1,7 @@
 package com.ticketing.project.util.common;
 
 import com.ticketing.project.entity.User;
-import com.ticketing.project.service.UserService;
+import com.ticketing.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

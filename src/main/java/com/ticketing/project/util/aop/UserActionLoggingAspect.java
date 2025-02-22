@@ -1,7 +1,7 @@
 package com.ticketing.project.util.aop;
 
 import com.ticketing.project.entity.User;
-import com.ticketing.project.service.UserService;
+import com.ticketing.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

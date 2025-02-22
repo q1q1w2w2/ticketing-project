@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.reservation;
 
 import com.ticketing.project.dto.reservation.ReservationResponseDto;
 import com.ticketing.project.entity.*;
@@ -10,8 +10,8 @@ import com.ticketing.project.execption.reservation.SingleTicketPerUserException;
 import com.ticketing.project.execption.user.InvalidOwnerException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.ReservationRepository;
+import com.ticketing.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

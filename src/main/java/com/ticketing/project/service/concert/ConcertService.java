@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.concert;
 
 import com.ticketing.project.dto.concert.ConcertResponseDto;
 import com.ticketing.project.dto.concert.CreateConcertDto;
@@ -10,10 +10,8 @@ import com.ticketing.project.execption.concert.InvalidConcertTimeException;
 import com.ticketing.project.execption.location.LocationNotFoundException;
 import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.LocationRepository;
-import com.ticketing.project.util.enums.ConcertStatus;
+import com.ticketing.project.service.reservation.ReservationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.concert;
 
 import com.ticketing.project.dto.location.CreateLocationDto;
 import com.ticketing.project.entity.Location;

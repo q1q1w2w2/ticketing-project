@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.concert;
 
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.repository.ConcertRepository;

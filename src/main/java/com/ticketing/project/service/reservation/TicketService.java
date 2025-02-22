@@ -1,4 +1,4 @@
-package com.ticketing.project.service;
+package com.ticketing.project.service.reservation;
 
 import com.ticketing.project.dto.ticket.TicketResponseDto;
 import com.ticketing.project.entity.Ticket;

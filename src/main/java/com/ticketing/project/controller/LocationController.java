@@ -3,7 +3,7 @@ package com.ticketing.project.controller;
 import com.ticketing.project.dto.location.CreateLocationDto;
 import com.ticketing.project.dto.location.LocationResponseDto;
 import com.ticketing.project.entity.Location;
-import com.ticketing.project.service.LocationService;
+import com.ticketing.project.service.concert.LocationService;
 import com.ticketing.project.util.aop.LogUserAction;
 import com.ticketing.project.util.common.ApiResponse;
 import jakarta.validation.Valid;
