@@ -45,14 +45,12 @@ public class ReservationService {
             if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
                 throw new SingleTicketPerUserException();
             }
-
-            Ticket ticket = ticketService.generateTicket();
-
-            if (!lockedConcert.canIncreaseReservedAmount()) {
+            if (!lockedConcert.hasAvailableSeats()) {
                 throw new NoAvailableSeatException();
             }
-            lockedConcert.increasedReservedAmount();
 
+            lockedConcert.increasedReservedAmount();
+            Ticket ticket = ticketService.generateTicket();
             Reservation reservation = Reservation.builder()
                     .user(user)
                     .concert(lockedConcert)

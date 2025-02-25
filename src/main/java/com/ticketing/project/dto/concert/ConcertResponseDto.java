@@ -14,6 +14,7 @@ public class ConcertResponseDto {
     private String locationName;
     private LocalDateTime concertAt;
     private int seats;
+    private int reservedAmount;
     private LocalDateTime openAt;
     private LocalDateTime closeAt;
     private LocalDateTime createdAt;
@@ -24,6 +25,7 @@ public class ConcertResponseDto {
         this.locationName = concert.getLocation().getLocationName();
         this.concertAt = concert.getConcertAt();
         this.seats = concert.getTotalAmount();
+        this.reservedAmount = concert.getReservedAmount();
         this.openAt = concert.getOpenAt();
         this.closeAt = concert.getCloseAt();
         this.createdAt = concert.getCreatedAt();

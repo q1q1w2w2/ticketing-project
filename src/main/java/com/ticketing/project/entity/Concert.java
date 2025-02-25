@@ -83,7 +83,7 @@ public class Concert {
         this.closeAt = closeAt;
     }
 
-    public boolean canIncreaseReservedAmount() {
+    public boolean hasAvailableSeats() {
         return reservedAmount < totalAmount;
     }
 
