@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class RequestLimitingInterceptor implements HandlerInterceptor {
     private final RedisTemplate<String, Object> redisTemplate;
-    private static final int MAX_REQUEST = 5;
+    private static final int MAX_REQUEST = 10;
     private static final long LIMIT_TIME = 60;
     private static final String KEY_PREFIX = "request_limit";
 

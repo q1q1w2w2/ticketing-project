@@ -14,11 +14,11 @@ public class ReservationFailureLogService {
     private final ReservationFailureLogRepository failureLogRepository;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void logFailedReservation(String email, Long concertId, String reason) {
+    public void logFailedReservation(String email, Long concertId, String failureReason) {
         ReservationFailureLog log = ReservationFailureLog.builder()
                 .email(email)
                 .concertId(concertId)
-                .reason(reason)
+                .reason(failureReason)
                 .build();
         failureLogRepository.save(log);
     }
