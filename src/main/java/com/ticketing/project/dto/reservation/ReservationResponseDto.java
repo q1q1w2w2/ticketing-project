@@ -11,12 +11,14 @@ import java.time.LocalDateTime;
 @Data
 public class ReservationResponseDto {
 
+    private Long id;
     private String title;
     private LocalDateTime concertAt;
     private String address;
     private TicketResponseDto ticket;
 
     public ReservationResponseDto(Concert concert, Ticket ticket) {
+        this.id = concert.getId();
         this.title = concert.getTitle();
         this.concertAt = concert.getConcertAt();
         this.address = concert.getLocation().getAddress();

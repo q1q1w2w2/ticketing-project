@@ -12,6 +12,7 @@ import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.ReservationRepository;
 import com.ticketing.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import static com.ticketing.project.util.enums.ConcertStatus.*;
 import static com.ticketing.project.util.enums.TicketStatus.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -95,7 +97,8 @@ public class ReservationService {
         }
     }
 
-    public List<ReservationResponseDto> getReservations(User user) {
+    public List<ReservationResponseDto> getReservations() {
+        User user = userService.getCurrentUser();
         List<ReservationResponseDto> reservationsDto = new ArrayList<>();
         List<Reservation> reservations = reservationRepository.findAllByUser(user);
         for (Reservation reservation : reservations) {

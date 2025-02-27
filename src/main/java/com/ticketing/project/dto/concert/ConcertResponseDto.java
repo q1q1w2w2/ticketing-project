@@ -4,12 +4,12 @@ import com.ticketing.project.entity.Concert;
 import com.ticketing.project.util.enums.ConcertStatus;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 public class ConcertResponseDto {
 
+    private Long id;
     private String title;
     private String locationName;
     private LocalDateTime concertAt;
@@ -21,6 +21,7 @@ public class ConcertResponseDto {
     private ConcertStatus status;
 
     public ConcertResponseDto(Concert concert) {
+        this.id = concert.getId();
         this.title = concert.getTitle();
         this.locationName = concert.getLocation().getLocationName();
         this.concertAt = concert.getConcertAt();

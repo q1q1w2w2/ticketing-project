@@ -56,8 +56,8 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ReservationResponseDto>>> getReservations(@LoginUser User user) {
-        List<ReservationResponseDto> reservations = reservationService.getReservations(user);
+    public ResponseEntity<ApiResponse<List<ReservationResponseDto>>> getReservations() {
+        List<ReservationResponseDto> reservations = reservationService.getReservations();
         return createResponse(OK, reservations);
     }
 }
