@@ -18,7 +18,6 @@ public class ReservationResponseDto {
     private TicketResponseDto ticket;
 
     public ReservationResponseDto(Concert concert, Ticket ticket) {
-        this.id = concert.getId();
         this.title = concert.getTitle();
         this.concertAt = concert.getConcertAt();
         this.address = concert.getLocation().getAddress();
@@ -26,6 +25,7 @@ public class ReservationResponseDto {
     }
 
     public ReservationResponseDto(Reservation reservation) {
+        this.id = reservation.getId();
         this.title = reservation.getConcert().getTitle();
         this.concertAt = reservation.getConcert().getConcertAt();
         this.address = reservation.getConcert().getLocation().getAddress();

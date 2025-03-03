@@ -39,7 +39,7 @@ public class QueueService {
     public boolean joinQueue(User user, Long concertId) {
         Concert concert = concertRepository.findById(concertId)
                 .orElseThrow(ConcertNotFoundException::new);
-        validCheck(user, concert);
+        validateReservationConditions(user, concert);
 
         String userKey = String.valueOf(user.getId());
         String queueKey = QUEUE_KEY + concertId;
@@ -59,7 +59,7 @@ public class QueueService {
         return false;
     }
 
-    private void validCheck(User user, Concert concert) {
+    private void validateReservationConditions(User user, Concert concert) {
         if (concert.getStatus() != RESERVATION_START) {
             throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }

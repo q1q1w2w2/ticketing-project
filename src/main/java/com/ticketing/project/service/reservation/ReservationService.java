@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.ticketing.project.util.enums.ConcertStatus.*;
@@ -27,8 +26,8 @@ import static com.ticketing.project.util.enums.TicketStatus.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReservationService {
-
     private final ReservationRepository reservationRepository;
+
     private final ConcertRepository concertRepository;
     private final TicketService ticketService;
     private final UserService userService;
@@ -40,16 +39,7 @@ public class ReservationService {
         try {
             Concert lockedConcert = concertRepository.findByIdForUpdate(concertId)
                     .orElseThrow(ConcertNotFoundException::new);
-
-            if (lockedConcert.getStatus() != RESERVATION_START) {
-                throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
-            }
-            if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
-                throw new SingleTicketPerUserException();
-            }
-            if (!lockedConcert.hasAvailableSeats()) {
-                throw new NoAvailableSeatException();
-            }
+            validateReservationConditions(lockedConcert, user);
 
             lockedConcert.increasedReservedAmount();
             Ticket ticket = ticketService.generateTicket();
@@ -70,13 +60,7 @@ public class ReservationService {
     public void cancelReservation(Long reservationId, User user) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(ReservationNotFoundException::new);
-
-        if (!reservation.getUser().equals(user)) {
-            throw new InvalidOwnerException();
-        }
-        if (reservation.getStatus() == CANCEL || reservation.getStatus() == EXPIRED) {
-            throw new ReservationNotFoundException();
-        }
+        validateCancelReservationConditions(user, reservation);
 
         Ticket ticket = reservation.getTicket();
         ticket.cancel();
@@ -90,7 +74,6 @@ public class ReservationService {
     @Transactional
     public void cancelReservations(Concert concert) {
         List<Reservation> reservations = reservationRepository.findAllByConcert(concert);
-
         for (Reservation reservation : reservations) {
             reservation.cancel();
             reservation.getTicket().cancel();
@@ -98,12 +81,30 @@ public class ReservationService {
     }
 
     public List<ReservationResponseDto> getReservations() {
-        User user = userService.getCurrentUser();
-        List<ReservationResponseDto> reservationsDto = new ArrayList<>();
-        List<Reservation> reservations = reservationRepository.findAllByUser(user);
-        for (Reservation reservation : reservations) {
-            reservationsDto.add(new ReservationResponseDto(reservation));
+        List<Reservation> reservations = reservationRepository.findAllByUser(userService.getCurrentUser());
+        return reservations.stream()
+                .map(ReservationResponseDto::new)
+                .toList();
+    }
+
+    private void validateReservationConditions(Concert lockedConcert, User user) {
+        if (lockedConcert.getStatus() != RESERVATION_START) {
+            throw new InvalidConcertStatusException("예매 가능한 상태가 아닙니다.");
         }
-        return reservationsDto;
+        if (reservationRepository.findByUserAndConcertAndStatus(user, lockedConcert, AVAILABLE).isPresent()) {
+            throw new SingleTicketPerUserException();
+        }
+        if (!lockedConcert.hasAvailableSeats()) {
+            throw new NoAvailableSeatException();
+        }
+    }
+
+    private void validateCancelReservationConditions(User user, Reservation reservation) {
+        if (!reservation.getUser().equals(user)) {
+            throw new InvalidOwnerException();
+        }
+        if (reservation.getStatus() == CANCEL || reservation.getStatus() == EXPIRED) {
+            throw new ReservationNotFoundException();
+        }
     }
 }

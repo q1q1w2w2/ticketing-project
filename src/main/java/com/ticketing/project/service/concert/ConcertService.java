@@ -34,17 +34,7 @@ public class ConcertService {
     public Concert saveConcert(CreateConcertDto dto) {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(LocationNotFoundException::new);
-
-        LocalDateTime now = LocalDateTime.now();
-        if (!dto.getOpenAt().isAfter(now)) {
-            throw new InvalidConcertTimeException("오픈 시간은 현재 시간 이후여야 합니다.");
-        }
-        if (!dto.getCloseAt().isAfter(now) && !dto.getCloseAt().isAfter(dto.getOpenAt())) {
-            throw new InvalidConcertTimeException("마감 시간은 오픈 시간 이후여야 합니다.");
-        }
-        if(!dto.getConcertAt().isAfter(dto.getCloseAt())) {
-            throw new InvalidConcertTimeException("콘서트 시간은 마감 시간 이후여야 합니다.");
-        }
+        validateSchedule(dto, LocalDateTime.now());
 
         Concert concert = Concert.builder()
                 .title(dto.getTitle())
@@ -55,7 +45,6 @@ public class ConcertService {
                 .totalAmount(location.getTotalSeat())
                 .status(SCHEDULED)
                 .build();
-
         return concertRepository.save(concert);
     }
 
@@ -67,7 +56,6 @@ public class ConcertService {
             throw new ConcertAlreadyCancelException();
         }
         concert.changeStatus(CANCELLED);
-
         reservationService.cancelReservations(concert);
     }
 
@@ -78,12 +66,21 @@ public class ConcertService {
     }
 
     public List<ConcertResponseDto> getConcerts() {
-        List<ConcertResponseDto> concertsDto = new ArrayList<>();
         List<Concert> concerts = concertRepository.findAllByStatusNotIn(List.of(CANCELLED, FINISHED));
-        for (Concert concert : concerts) {
-            concertsDto.add(new ConcertResponseDto(concert));
-        }
-        return concertsDto;
+        return concerts.stream()
+                .map(ConcertResponseDto::new)
+                .toList();
     }
 
+    private void validateSchedule(CreateConcertDto dto, LocalDateTime now) {
+        if (!dto.getOpenAt().isAfter(now)) {
+            throw new InvalidConcertTimeException("오픈 시간은 현재 시간 이후여야 합니다.");
+        }
+        if (!dto.getCloseAt().isAfter(now) && !dto.getCloseAt().isAfter(dto.getOpenAt())) {
+            throw new InvalidConcertTimeException("마감 시간은 오픈 시간 이후여야 합니다.");
+        }
+        if(!dto.getConcertAt().isAfter(dto.getCloseAt())) {
+            throw new InvalidConcertTimeException("콘서트 시간은 마감 시간 이후여야 합니다.");
+        }
+    }
 }

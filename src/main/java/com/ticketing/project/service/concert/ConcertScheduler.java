@@ -32,7 +32,7 @@ public class ConcertScheduler {
         );
 
         for (Concert concert : concerts) {
-            if(now.isAfter(concert.getOpenAt()) && now.isBefore(concert.getCloseAt())) {
+            if (now.isAfter(concert.getOpenAt()) && now.isBefore(concert.getCloseAt())) {
                 concert.changeStatus(RESERVATION_START);
             } else if (now.isAfter(concert.getCloseAt())) {
                 concert.changeStatus(RESERVATION_CLOSED);
