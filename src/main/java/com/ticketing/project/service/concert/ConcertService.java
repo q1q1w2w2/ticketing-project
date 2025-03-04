@@ -76,7 +76,7 @@ public class ConcertService {
 
     public Page<ConcertResponseDto> getPagedConcerts(int page) {
         PageRequest pageRequest = PageRequest.of(page, 10);
-        Page<Concert> concerts = concertRepository.findPagedConcertsByStatusNotIn(List.of(CANCELLED, FINISHED), pageRequest);
+        Page<Concert> concerts = concertRepository.findAllByStatusNotIn(List.of(CANCELLED, FINISHED), pageRequest);
         return concerts.map(ConcertResponseDto::new);
     }
 

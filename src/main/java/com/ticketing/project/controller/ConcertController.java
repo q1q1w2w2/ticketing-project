@@ -49,7 +49,7 @@ public class ConcertController {
     }
 
     @GetMapping
-    public ResponseEntity getPagedConcerts(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<ApiResponse<Page<ConcertResponseDto>>> getPagedConcerts(@RequestParam(defaultValue = "0") int page) {
         return createResponse(OK, concertService.getPagedConcerts(page));
     }
 }

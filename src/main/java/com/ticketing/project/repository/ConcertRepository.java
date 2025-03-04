@@ -23,5 +23,5 @@ public interface ConcertRepository extends JpaRepository<Concert, Long> {
 
     List<Concert> findAllByStatusNotIn(List<ConcertStatus> statuses);
 
-    Page<Concert> findPagedConcertsByStatusNotIn(List<ConcertStatus> statuses, Pageable pageable);
+    Page<Concert> findAllByStatusNotIn(List<ConcertStatus> statuses, Pageable pageable);
 }

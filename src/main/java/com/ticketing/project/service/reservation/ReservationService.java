@@ -13,6 +13,7 @@ import com.ticketing.project.repository.ReservationRepository;
 import com.ticketing.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,6 +83,14 @@ public class ReservationService {
 
     public List<ReservationResponseDto> getReservations() {
         List<Reservation> reservations = reservationRepository.findAllByUser(userService.getCurrentUser());
+        return reservations.stream()
+                .map(ReservationResponseDto::new)
+                .toList();
+    }
+
+    public List<ReservationResponseDto> getReservations(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        List<Reservation> reservations = reservationRepository.findAllByUser(userService.getCurrentUser(), pageRequest);
         return reservations.stream()
                 .map(ReservationResponseDto::new)
                 .toList();

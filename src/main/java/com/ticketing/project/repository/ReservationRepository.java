@@ -4,6 +4,7 @@ import com.ticketing.project.entity.Concert;
 import com.ticketing.project.entity.Reservation;
 import com.ticketing.project.entity.User;
 import com.ticketing.project.util.enums.TicketStatus;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findAllByStatus(TicketStatus status);
 
     List<Reservation> findAllByUser(User user);
+
+    List<Reservation> findAllByUser(User user, Pageable pageable);
 }

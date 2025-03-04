@@ -55,9 +55,15 @@ public class ReservationController {
         return createResponse(OK, "취소가 완료되었습니다.");
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<ReservationResponseDto>>> getReservations() {
         List<ReservationResponseDto> reservations = reservationService.getReservations();
+        return createResponse(OK, reservations);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ReservationResponseDto>>> getReservations(@RequestParam(defaultValue = "0") int page) {
+        List<ReservationResponseDto> reservations = reservationService.getReservations(page);
         return createResponse(OK, reservations);
     }
 }
