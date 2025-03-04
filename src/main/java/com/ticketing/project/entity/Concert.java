@@ -24,9 +24,12 @@ public class Concert {
     @Column(name = "concert_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
+
+//    @Column(name = "location_id")
+//    private Long locationId;
 
     @Column(name = "title")
     private String title;
@@ -61,6 +64,7 @@ public class Concert {
     @Builder
     public Concert(Location location, String title, LocalDateTime concertAt, LocalDateTime openAt, LocalDateTime closeAt, int totalAmount, ConcertStatus status) {
         this.location = location;
+//        this.locationId = location.getId();
         this.title = title;
         this.concertAt = concertAt;
         setOpenAt(openAt);

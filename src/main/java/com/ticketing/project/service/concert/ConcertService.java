@@ -12,6 +12,8 @@ import com.ticketing.project.repository.ConcertRepository;
 import com.ticketing.project.repository.LocationRepository;
 import com.ticketing.project.service.reservation.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,6 +72,12 @@ public class ConcertService {
         return concerts.stream()
                 .map(ConcertResponseDto::new)
                 .toList();
+    }
+
+    public Page<ConcertResponseDto> getPagedConcerts(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        Page<Concert> concerts = concertRepository.findPagedConcertsByStatusNotIn(List.of(CANCELLED, FINISHED), pageRequest);
+        return concerts.map(ConcertResponseDto::new);
     }
 
     private void validateSchedule(CreateConcertDto dto, LocalDateTime now) {

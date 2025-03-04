@@ -8,6 +8,7 @@ import com.ticketing.project.util.aop.LogUserAction;
 import com.ticketing.project.util.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +40,16 @@ public class ConcertController {
 
     @GetMapping("/{concertId}")
     public ResponseEntity<ApiResponse<ConcertResponseDto>> getConcert(@PathVariable Long concertId) {
-        ConcertResponseDto concert = concertService.getConcert(concertId);
-        return createResponse(OK, concert);
+        return createResponse(OK, concertService.getConcert(concertId));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<List<ConcertResponseDto>>> getConcerts() {
+        return createResponse(OK, concertService.getConcerts());
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ConcertResponseDto>>> getConcerts() {
-        List<ConcertResponseDto> concerts = concertService.getConcerts();
-        return createResponse(OK, concerts);
+    public ResponseEntity getPagedConcerts(@RequestParam(defaultValue = "0") int page) {
+        return createResponse(OK, concertService.getPagedConcerts(page));
     }
 }

@@ -35,6 +35,15 @@ public class Reservation {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+//    @Column(name = "user_id")
+//    private Long userId;
+//
+//    @Column(name = "concert_id")
+//    private Long concertId;
+//
+//    @Column(name = "ticket_id")
+//    private Long ticketId;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private TicketStatus status;

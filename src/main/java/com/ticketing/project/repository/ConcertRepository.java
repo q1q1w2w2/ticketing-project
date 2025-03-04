@@ -3,6 +3,8 @@ package com.ticketing.project.repository;
 import com.ticketing.project.entity.Concert;
 import com.ticketing.project.util.enums.ConcertStatus;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +23,5 @@ public interface ConcertRepository extends JpaRepository<Concert, Long> {
 
     List<Concert> findAllByStatusNotIn(List<ConcertStatus> statuses);
 
+    Page<Concert> findPagedConcertsByStatusNotIn(List<ConcertStatus> statuses, Pageable pageable);
 }
